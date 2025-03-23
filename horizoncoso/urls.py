@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include("home.urls"),name='home'),
     path('services/',include('services.urls'),name='services'),
+    path("ckeditor/", include('ckeditor_uploader.urls')), # <-- here
 
 ]
 if settings.DEBUG:

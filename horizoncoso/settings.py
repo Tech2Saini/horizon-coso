@@ -139,3 +139,21 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# settings.py
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER="info.horizoncoso@gmail.com"
+EMAIL_HOST_PASSWORD="pofw kgmi dvgc imio"
+ADMIN_EMAIL="info.horizoncoso@gmail.com"
+
+# Session expires after 24 hours
+SESSION_COOKIE_AGE = 86400    # 24 hours in seconds
+# Ensure session expiration is enforced
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False  
+SESSION_SAVE_EVERY_REQUEST = False
+
+
+CKEDITOR_UPLOAD_PATH = 'cheditor/'
