@@ -1,4 +1,8 @@
 {
+    "version": 2,
+    "env": {
+      "PYTHON_VERSION": "3.10"
+    },
     "builds": [
         {
             "src": "horizoncoso/wsgi.py",
@@ -6,10 +10,8 @@
             "config": {
                 "maxLambdaSize": "15mb",
                 "runtime": "python3.10"
-            },
-            "env": {
-                "PYTHON_VERSION": "3.10"
             }
+            
         },
         {
             "src": "build_files.sh",
