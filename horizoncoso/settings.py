@@ -85,7 +85,7 @@ import dj_database_url
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=dj_database_url.config(default=os.getenv("DATABASE_URL")),
+        default="postgresql://postgres:LCrekmlDcoEHryndfUGrPELghBLtagRm@switchyard.proxy.rlwy.net:56992/railway",
         conn_max_age=600,
     )
 }
