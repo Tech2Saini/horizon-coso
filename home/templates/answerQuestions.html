@@ -1,0 +1,304 @@
+{% extends "navbar.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Answers{% endblock title %}
+
+{% block main %}
+
+    <style>
+        .tabs-scroller::-webkit-scrollbar {
+            display: none !important;
+        }
+    </style>
+
+    <!-- Bootstrap Toast Container (Bottom Right) -->
+    {% if post_message %}
+        {% for message in messages %}
+            <div class="toast show position-fixed top-0 my-3 end-0 p-3" style="z-index: 1200;" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-body py-0">
+                    <div class="row">
+                        <div class="col">
+                            <span class="text-{{message.tags}} fw-bold"> 
+                                {% if message.tags == 'success success' %}
+                                    <i class="bi bi-check-circle-fill"></i> Success
+                                {% else %}
+                                    <i class="bi bi-x-lg"></i> Failed
+                                {% endif %} 
+                            </span>
+                            {{message}}
+                        </div>
+                        <div class="col-md-1">
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+    {% endif %}
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        setTimeout(() => {
+            document.querySelector('.toast').classList.remove('show')
+        }, 3000);
+    </script>
+
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Admin Panel - Answer Questions</h2>
+
+        <!-- Stats Overview -->
+        <div class="row mb-4">
+            <div class="col-md-d6">
+                <div class="card text-bg-primary">
+                    <div class="card-body text-center">
+                        <div class="stats-card row">
+                            <h4 class="col-md-4 text d-flex align-items-center justify-content-center">We Answered of <i class="bi bi-arrow-right ms-2 mt-1"></i></h4>
+                             <p class="col-md-4 text d-flex align-items-center justify-content-center"><strong class="rounded-circle border d-flex justify-content-center align-items-center position-relative fs-3" style="height:80px;width:80px;">{{ solved_questions }}/{{ total_questions }} </strong></p>
+                            <h2 class="col-md-4 text d-flex align-items-center justify-content-center"><span class="rounded-circle border d-flex justify-content-center align-items-center position-relative" style="height:80px;width:80px;">{{ percentage_solved }}% <span class="fs-4 position-absolute top-0 end-0 bi bi-check-circle-fill"></span> </span></h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 d-none">
+                <div class="card text-bg-success">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Answered Questions</h5>
+                        <p class="fs-4">{{ answered_questions }} / {{ total_questions }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bootstrap JS & Custom Script -->
+        
+        <!-- Search Bar -->
+        <div class="input-group mb-4">
+            <input type="search" class="form-control" id="searchQuestions" placeholder="Search questions...">
+        </div>
+
+        <!-- Tab Navigation -->
+        <ul class="nav nav-tabs mb-3 d-flex flex-nowrap flex-row overflow-x-auto overflow-y-hidden tabs-scroller" id="questionTabs">
+            <li class="nav-item">
+                <button class="nav-link active" onclick="changeTab(1)" id="tab1" data-bs-toggle="tab" data-bs-target="#pendingTab">Pending<sub>{% if pending_questions|length > 0 %}({{pending_questions|length}}){% endif %}</sub></button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" onclick="changeTab(2)" data-bs-toggle="tab" id="tab2" data-bs-target="#answeredTab">Answered<sub>{% if answered_questions_list|length > 0 %}({{answered_questions_list|length}}){% endif %}</sub></button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" onclick="changeTab(3)" data-bs-toggle="tab" id="tab3" data-bs-target="#archivedTab">Archived<sub>{% if archived_questions_list|length > 0 %}({{archived_questions_list|length}}){% endif %}</sub></button>
+            </li>
+            <li class="nav-item">
+                <a href="/ask-questions/" style="min-width:120px;" class="navk-link btn btn-outline-primary border-0 mt-1 mx-2 rounded-pill"><i class="bi bi-plus-lg ms-2"></i> Add New </a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <!-- Pending Questions -->
+            <div class="tab-pane fade show active" id="pendingTab">
+                {% if pending_questions %}
+                    <div class="list-group" id="pendingList">
+                        {% for question in pending_questions %}
+                            <div class="list-group-item position-relative">
+                                <div class="dropdown position-absolute end-0 top-0">
+                                    <button class="outline-none btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                      <i class="bi bi-three-dots-vertical"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="/answer-questions/{{question.id}}/archive/?tab=1"><i class="bi bi-archive"></i> Archive</a></li>
+                                        <li><a class="dropdown-item" href="/answer-questions/{{question.id}}/delete/?tab=1"><i class="bi bi-trash2"></i> Delete</a></li>
+                                    </ul>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="me-auto">
+                                        <h5>{{ question.question }}</h5>
+
+                                    </div>
+                                    
+                                </div>
+
+                                <p class="text-muted">Asked at: {{ question.created_at |naturaltime}}
+                                    {% if question.service %}
+                                        <strong>({{question.service}})</strong>
+                                    {% endif %}
+                                </p>
+                                <form class="answerForm" method="post" action="/answer-questions/?tab=2"  data-id="{{ question.id }}">
+                                    {% csrf_token %}
+                                    <div class="input-group mb-2">
+                                        <textarea name="answer" class="form-control answerInput" placeholder="Enter your answer..."></textarea>
+                                    </div>
+                                    <input type="text" name="question_id" hidden value="{{ question.id }}">
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <button type="submit" class="m-2 btn btn-success">Submit</button>
+                                            <button type="reset" class="m-2 btn btn-outline-secondary">Clear</button>
+                                        </div>
+                                        <div class="col-lg-3">
+
+                                            {% if question.email %}
+                                            <div class="form-check form-switch m-2">
+                                                <input class="form-check-input" name="notify" value="True" type="checkbox" {% if not question.notified %}checked{% endif %} role="switch" id="flexSwitchCheckDefault{{forloop.counter}}">
+                                                <label class="form-check-label" for="flexSwitchCheckDefault{{forloop.counter}}">Notify user{% if question.notified %} (Already){% endif %}</label>
+                                                <span class="bi bi-info-circle ms-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Notify to associate email for answer, Check it before submit!"></span>
+                                            </div>
+                                            {% else %}
+                                                <label class="form-check-label text-danger m-2" >No Email<i class="bi bi-info-circle ms-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="No email address is associated with question to notify the user"></i></label>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-center text-muted">No pending questions.</p>
+                {% endif %}
+            </div>
+
+            <!-- Answered Questions -->
+            <div class="tab-pane fade" id="answeredTab">
+                {% if answered_questions_list %}
+                    <div class="list-group">
+                        {% for question in answered_questions_list %}
+                        <div class="list-group-item position-relative">
+                            <div class="dropdown position-absolute end-0 top-0">
+                                <button class="btn outline-none" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  <i class="bi bi-three-dots-vertical"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    {% if not question.is_active %}
+                                        <li data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Show to users"><a class="dropdown-item" href="/answer-questions/{{question.id}}/active/?tab=2"><i class="bi bi-check-circle"></i> Make Active</a></li>
+                                    {% else %}
+                                        <li data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Hide from users"><a class="dropdown-item" href="/answer-questions/{{question.id}}/inactive/?tab=2"><i class="bi bi-check-circle text-danger"></i> Make Inactive</a></li>
+                                    {% endif %}
+                                    <li><a class="dropdown-item" href="/answer-questions/{{question.id}}/update/?tab=2"><i class="bi bi-pencil-square"></i> Change Answer</a></li>
+                                    <li><a class="dropdown-item" href="/answer-questions/{{question.id}}/archive/?tab=2"><i class="bi bi-archive"></i> Archive</a></li>
+                                  <li><a class="dropdown-item" href="/answer-questions/{{question.id}}/delete/?tab=2"><i class="bi bi-trash2"></i> Delete</a></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="d-flex">
+                                <div class="me-auto">
+                                    <h5>{{ question.question }}</h5>
+                                </div>
+                                <div class="mx-3">
+                                    {% if not question.is_active %}
+                                        <span class="text-danger"data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Hidden from users">Inactive</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <p><strong>Answer:</strong> {{ question.answer |safe}}</p>
+                            <p class="text-muted">Answered at: {{ question.updated_at|naturaltime }} 
+                                {% if question.service %}
+                                    <strong>({{question.service}})</strong>
+                                {% endif %}
+                            </p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-center text-muted">No answered questions yet.</p>
+                {% endif %}
+            </div>
+            <!-- Answered archived -->
+            <div class="tab-pane fade" id="archivedTab">
+                {% if archived_questions_list %}
+                    <div class="list-group">
+                        {% for question in archived_questions_list %}
+                        <div class="list-group-item position-relative">
+                            <div class="dropdown position-absolute end-0 top-0">
+                                <button class="btn outline-none" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  <i class="bi bi-three-dots-vertical"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    {% if not question.is_active %}
+                                        <li data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Show to users"><a class="dropdown-item" href="/answer-questions/{{question.id}}/active/?tab=3"><i class="bi bi-check-circle"></i> Make Active</a></li>
+                                    {% else %}
+                                        <li data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Hide from users"><a class="dropdown-item" href="/answer-questions/{{question.id}}/inactive/?tab=3"><i class="bi bi-check-circle text-danger"></i> Make Inactive</a></li>
+                                    {% endif %}
+                                    <li><a class="dropdown-item" href="/answer-questions/{{question.id}}/update/?tab=3"><i class="bi bi-pencil-square"></i> Change Answer</a></li>
+                                    <li><a class="dropdown-item" href="/answer-questions/{{question.id}}/retrive/?tab=3"><i class="bi bi-reply"></i> Retrive</a></li>
+                                  <li><a class="dropdown-item" href="/answer-questions/{{question.id}}/delete/?tab=3"><i class="bi bi-trash2"></i> Delete</a></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="d-flex">
+                                <div class="me-auto">
+                                    <h5>{{ question.question }}</h5>
+
+                                </div>
+                                <div class="mx-3">
+                                    {% if not question.is_active %}
+                                        <span class="text-danger px-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Hidden from users">Inactive</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% if question.answer %}
+                                <p><strong>Answer:</strong> {{ question.answer |safe}}</p>
+                            {% endif %}
+                            <p class="text-muted">Answered at: {{ question.updated_at|naturaltime }} 
+                                {% if question.service %}
+                                    <strong>({{question.service}})</strong>
+                                {% endif %}
+                            </p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-center text-muted">No archives questions yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function getParmas(key){
+            var url_string = window.location.href; 
+            var url = new URL(url_string);
+            var tab = url.searchParams.get(key);
+            return tab;
+        }
+        window.onload = e=>{
+            let tab = getParmas('tab')
+            if (tab) {
+                target_tab = document.getElementById(`tab${tab}`)
+                console.log(tab,target_tab)
+                target_tab.click()
+            }
+            else{
+                updateURLParameter('tab',1)
+            }
+            
+        }
+
+        function changeTab(tab){
+            updateURLParameter('tab',tab)
+        }
+
+        function updateURLParameter(key, value) {
+                let url = new URL(window.location.href);
+                url.searchParams.set(key, value);
+                window.history.pushState({}, '', url);
+            }
+
+        // Live Search for Questions
+        document.getElementById('searchQuestions').addEventListener('keyup', function() {
+            let filter = this.value.toLowerCase();
+            let items = document.querySelectorAll('.list-group-item');
+
+            items.forEach(function(item) {
+                let question = item.querySelector('h5').innerText.toLowerCase();
+                item.style.display = question.includes(filter) ? "block" : "none";
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+    </script>
+{% endblock main %}

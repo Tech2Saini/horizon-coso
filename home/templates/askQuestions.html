@@ -1,0 +1,189 @@
+{% extends "navbar.html" %}
+{% block title %}Question{% endblock title %}
+{% load static %}
+{% load humanize %}
+
+{% block main %}
+    <style>
+        
+        .faq-container {
+            max-width: 900px;
+            margin: auto;
+            padding: 40px 0;
+        }
+        .faq-title {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .search-box {
+            max-width: 600px;
+            margin: 0 auto 20px;
+        }
+        .stats-card {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(to right, #007bff, #6610f2);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+        .stats-card h4 {
+            margin-bottom: 10px;
+        }
+        .question-form {
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+    </style>
+
+    <!-- Bootstrap Toast Container (Bottom Right) -->
+    {% if post_message %}
+        {% for message in messages %}
+            <div class="toast show position-fixed top-0 my-3 end-0 p-3" style="z-index: 1200;" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-body py-0">
+                    <div class="row">
+                        <div class="col">
+                            <span class="text-{{message.tags}} fw-bold"> 
+                                {% if message.tags == 'success success' %}
+                                    <i class="bi bi-check-circle-fill"></i> Success
+                                {% else %}
+                                    <i class="bi bi-x-lg"></i> Failed
+                                {% endif %} 
+                            </span>
+                            {{message}}
+                        </div>
+                        <div class="col-md-1">
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+    {% endif %}
+
+    <script>
+    setTimeout(() => {
+        document.querySelector('.toast').classList.remove('show')
+    }, 3000);
+    </script>
+
+    <div class="container mt-5 p-0">
+        <h2 class="faq-title">Frequently Asked Questions</h2>
+
+        <div class="row">
+            <div class="col-md-5">
+                <!-- Stats Card -->
+                <div class="stats-card">
+                    <h4>We Answered</h4>
+                    <div class="text-center d-flex justify-content-center">
+                        <span class="rounded-circle fs-1 border d-flex justify-content-center align-items-center position-relative" style="height:90px;width:90px;">{{ percentage_solved }}%
+
+                        </span>
+                    </div>
+                    <span class="position-absolutke bottom-0 end-0 fs-6 p-1 rounded-circle ">{{ solved_questions }}.2k / {{ total_questions }}3.k </span>
+                </div>
+
+            </div>
+            <div class="col-md-7">
+                <!-- Ask a Question Form -->
+                <div class="question-form card">
+                    <h5>Ask a Question</h5>
+                    <form id="askQuestionForm" action="/ask-questions/" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3 d-flex flex-row flex-nowrap">
+                            {{form.question}} <span class="fs-5 ms-2 text-primary">?</span>
+                            {{form.question.errors}}
+                        </div>
+                        <div class="mb-3 d-flex flex-row flex-nowrap align-items-center">
+                                {{form.email}} <span><i data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="We will notify you when this question is answered. If you don't want to notify you can leave blank" class="bi bi-info-circle ms-2"></i></span>
+                            {{form.email.errors}}
+
+                        </div>
+                        <!-- <h3>Solve : Google Captcha</h3> -->
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3 d-flex flex-row flex-nowrap align-items-center">
+                                    {{form.service}} <span><i data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Leave blank the service type if you don't ask for specific service" class="bi bi-info-circle ms-2"></i></span>
+                                    {{form.service.errors}}
+
+                                </div>
+                            </div>
+                            <div class="col">
+                                <button type="submit" class="btn btn-primary w-100">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="questionMessage" class="mt-2 text-success d-none">Your question has been submitted!</div>
+                </div>
+                
+            </div>
+        </div>
+
+        <hr class="my-5">
+       
+        
+
+        <!-- Search Bar -->
+        <div class="input-group mb-4 search-box">
+            <input type="text" class="form-control" id="faqSearch" placeholder="Search questions...">
+        </div>
+
+        <!-- FAQ Accordion -->
+        <div class="accordion" id="faqAccordion">
+            {% for faq in faqs %}
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button {% if forloop.first %}show{% else %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#faq{{ forloop.counter }}">
+                            <i class="bi bi-question-circle me-2"></i> {{ faq.question }}
+                        </button>
+                    </h2>
+                    <div id="faq{{ forloop.counter }}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            {{ faq.answer |safe}}
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p class="text-center text-muted">No questions available at the moment.</p>
+            {% endfor %}
+        </div>
+
+    </div>
+
+    <!-- Bootstrap JS + Dependencies -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- JavaScript -->
+    <script>
+        // Live Search for FAQs
+        document.getElementById('faqSearch').addEventListener('keyup', function() {
+            let filter = this.value.toLowerCase();
+            let items = document.querySelectorAll('.accordion-item');
+
+            items.forEach(function(item) {
+                let question = item.querySelector('.accordion-button').innerText.toLowerCase();
+                if (question.includes(filter)) {
+                    item.style.display = "block";
+                } else {
+                    item.style.display = "none";
+                }
+            });
+        });
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+    </script>
+
+
+{% endblock main %}
