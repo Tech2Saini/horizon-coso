@@ -23,7 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include("home.urls"),name='home'),
     path('services/',include('services.urls'),name='services'),
-    path('mfa/',include('mfaauth.urls'),name='mfa'),
 
 ]
 if settings.DEBUG:
