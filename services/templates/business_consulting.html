@@ -1,0 +1,891 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="title" content="Business Consulting | Expert Growth Strategies">
+    <meta name="description" content="We provide expert business consulting to help startups and enterprises scale with proven strategies. Unlock growth with our industry-leading solutions.">
+    <meta name="keywords" content="business consulting, startup growth, enterprise solutions, strategy consulting, marketing, business development">
+    <meta name="author" content="Your Company Name">
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Open Graph (Facebook, LinkedIn) -->
+    <meta property="og:type" content="website">
+    <!-- <meta property="og:url" content="https://www.yourcompany.com/"> -->
+    <meta property="og:title" content="Business Consulting | Expert Growth Strategies">
+    <meta property="og:description" content="Unlock growth with expert business consulting. Tailored solutions for startups and enterprises.">
+    <meta property="og:image" content="{% static 'img/logo2.png' %}">
+    <meta property="og:site_name" content="Your Company">
+
+    <!-- Twitter Card (For Twitter Sharing) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <!-- <meta name="twitter:url" content="https://www.yourcompany.com/"> -->
+    <meta name="twitter:title" content="Business Consulting | Expert Growth Strategies">
+    <meta name="twitter:description" content="We provide expert business consulting to help startups and enterprises scale with proven strategies.">
+    <meta name="twitter:image" content="{% static 'img/logo2.png' %}">
+
+        <!-- Favicon & App Icons -->
+        <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon-16x16.png' %}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32x32.png' %}">
+        <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
+        <link rel="icon" type="image/png" sizes="192x192" href="{% static 'img/android-chrome-192x192.png' %}">
+        <link rel="icon" type="image/png" sizes="512x512" href="{% static 'img/android-chrome-512x512.png' %}">
+    
+        <!-- Web Manifest -->
+        <link rel="manifest" href="{% static 'img/site.webmanifest' %}">
+
+    <!-- Canonical URL -->
+    <!-- <link rel="canonical" href="https://www.yourcompany.com/"> -->
+
+    <!-- Schema.org Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Your Company",
+    "url": "https://www.yourcompany.com/",
+    "logo": "{% static 'img/logo2.png' %}",
+    "description": "We provide expert business consulting to help startups and enterprises scale with proven strategies.",
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Wazirpur",
+        "addressLocality": "Ashok vihar",
+        "addressRegion": "Delhi",
+        "postalCode": "110052",
+        "addressCountry": "India"
+    },
+    "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "email": "support.me@horizoncoso.com"
+    },
+    "sameAs": [
+        "https://www.linkedin.com/company/yourcompany",
+        "https://www.instagram.com/yourcompany",
+        "https://twitter.com/yourcompany",
+        "https://wa.me/155895548855"
+    ]
+    }
+    </script>
+
+
+
+    <title>Business Consulting | Your Company</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        .carousel-item {
+            height: 100vh;
+            min-height: 500px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .carousel-item::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            /* Dark overlay for better text visibility */
+            backdrop-filter: blur(5px);
+        }
+
+        .carousel-caption {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            text-align: center;
+            z-index: 10;
+        }
+
+        .carousel-caption h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .carousel-caption p {
+            font-size: 1.2rem;
+            color: #f8f9fa;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .btn-cta {
+            background: #ff7b00;
+            color: white;
+            font-size: 1.2rem;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-cta:hover {
+            background: #ff4c00;
+        }
+   
+
+        /* Background with subtle gradient */
+        #why-choose-us {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%);
+        }
+
+        /* Feature Card (Glassmorphism Effect) */
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        /* Hover Effect */
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Icons Styling */
+        .feature-card i {
+            font-size: 3rem;
+            color: #007bff;
+            margin-bottom: 15px;
+        }
+
+        /* Title Styling */
+        .feature-card h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        /* Paragraph Styling */
+        .feature-card p {
+            font-size: 1rem;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Hero Section with Carousel -->
+    <header>
+        <div id="consultingCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active" style="background-image: url('{% static "img/consultance/consulting-1.jpg" %}');">
+                    <div class="carousel-caption pb-5">
+                        <h1>Unlock Your Business Potential</h1>
+                        <p>Expert guidance to scale, optimize, and transform your business for success.</p>
+                        <a href="#contact" class="btn btn-cta my-3">Get a Free Consultation</a>
+                    </div>
+                </div>
+                <div class="carousel-item" style="background-image: url('{% static "img/consultance/consulting-2.jpg"%}');">
+                    <div class="carousel-caption">
+                        <h1>Strategy That Works</h1>
+                        <p>We create **customized** business strategies that **drive real growth**.</p>
+                        <a href="#services" class="btn btn-cta my-3">Explore Our Services</a>
+                    </div>
+                </div>
+                <div class="carousel-item" style="background-image: url('{% static "img/consultance/consulting-3.jpg"%}');">
+                    <div class="carousel-caption">
+                        <h1>Success Starts Here</h1>
+                        <p>Leverage expert consulting to **stay ahead** in today’s competitive market.</p>
+                        <a href="#portfolio" class="btn btn-cta my-3">See Our Work</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carousel Controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#consultingCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#consultingCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- what we offer section -->
+    <section id="service-overview" class="py-5 bg-light">
+        <div class="container">
+            <!-- Section Title -->
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">What We Offer</h2>
+                <p class="text-muted">Helping businesses scale, optimize, and transform for success.</p>
+            </div>
+
+            <div class="row align-items-center">
+                <!-- Left Side: Image -->
+                <div class="col-md-6">
+                    <img src="{% static "img/consultance/front.jpg" %}" class="img-fluid rounded shadow" alt="Business Consulting">
+                </div>
+
+                <!-- Right Side: Key Features -->
+                <div class="col-md-6">
+                    <h3 class="mb-4">Why Choose Our Business Consulting Services?</h3>
+                    <p>We provide expert guidance to help your business achieve sustainable growth and stay ahead in the competitive market.</p>
+
+                    <ul class="list-unstyled">
+                        <li class="d-flex align-items-start mb-3">
+                            <i class="bi bi-lightbulb-fill text-primary fs-4 me-3"></i>
+                            <span><strong>Strategic Planning:</strong> Tailored strategies to boost your business growth and efficiency.</span>
+                        </li>
+                        <li class="d-flex align-items-start mb-3">
+                            <i class="bi bi-graph-up-arrow text-success fs-4 me-3"></i>
+                            <span><strong>Market Analysis:</strong> Data-driven insights to help you make informed business decisions.</span>
+                        </li>
+                        <li class="d-flex align-items-start mb-3">
+                            <i class="bi bi-people-fill text-danger fs-4 me-3"></i>
+                            <span><strong>Leadership Coaching:</strong> Empowering leaders to drive change and innovation.</span>
+                        </li>
+                        <li class="d-flex align-items-start mb-3">
+                            <i class="bi bi-briefcase-fill text-warning fs-4 me-3"></i>
+                            <span><strong>Operational Efficiency:</strong> Streamlining processes to maximize productivity.</span>
+                        </li>
+                        <li class="d-flex align-items-start mb-3">
+                            <i class="bi bi-currency-dollar text-info fs-4 me-3"></i>
+                            <span><strong>Financial Advisory:</strong> Expert guidance on budgeting, investment, and cost-saving strategies.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- why choose us section -->
+    <section id="why-choose-us" class="py-5 position-relative">
+        <div class="container">
+            <!-- Section Title -->
+            <div class="text-center mb-5">
+                <h2 class="fw-bold text-primary">Why Choose Us?</h2>
+                <p class="text-muted">We combine expertise, innovation, and efficiency to drive success.</p>
+            </div>
+
+            <div class="row justify-content-center">
+                <!-- Card 1: Experience -->
+                <div class="col-md-3">
+                    <div class="feature-card">
+                        <i class="bi bi-calendar-check-fill"></i>
+                        <h3>10+ Years</h3>
+                        <p>Industry Experience</p>
+                    </div>
+                </div>
+
+                <!-- Card 2: Successful Projects -->
+                <div class="col-md-3">
+                    <div class="feature-card">
+                        <i class="bi bi-award-fill"></i>
+                        <h3>500+ Projects</h3>
+                        <p>Delivered Successfully</p>
+                    </div>
+                </div>
+
+                <!-- Card 3: Innovative Strategies -->
+                <div class="col-md-3">
+                    <div class="feature-card">
+                        <i class="bi bi-lightbulb-fill"></i>
+                        <h3>Innovative Solutions</h3>
+                        <p>AI & Data-Driven Approach</p>
+                    </div>
+                </div>
+
+                <!-- Card 4: Cost & Time Efficiency -->
+                <div class="col-md-3">
+                    <div class="feature-card">
+                        <i class="bi bi-clock-fill"></i>
+                        <h3>Fast & Affordable</h3>
+                        <p>Max ROI, Min Cost</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio/Case Studies section -->
+    <section id="portfolio" class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-4">
+                <h2 class="fw-bold">Our Work</h2>
+                <p class="text-muted">Real-world projects where we've made a difference.</p>
+            </div>
+    
+            <div class="row g-4">
+                <!-- Portfolio Item 1 -->
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm">
+                        <img src="{% static 'img/consultance/business_strategyo_verhaul.jpg' %}" class="card-img-top" alt="Project 1">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-folder-fill"></i> Business Strategy Overhaul</h5>
+                            <p class="card-text">Revamped a company's business strategy, leading to a 30% revenue increase.</p>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Portfolio Item 2 -->
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm">
+                        <img src="{% static 'img/consultance/market_expansion_lan.avif' %}" class="card-img-top" alt="Project 2">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-bar-chart-fill"></i> Market Expansion Plan</h5>
+                            <p class="card-text">Helped a startup scale operations, expanding into 5 new regions.</p>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Portfolio Item 3 -->
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm">
+                        <img src="{% static 'img/consultance/customer_retention_boost.avif' %}" class="card-img-top" alt="Project 3">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-people-fill"></i> Customer Retention Boost</h5>
+                            <p class="card-text">Implemented retention strategies, increasing customer loyalty by 40%.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Before & After Comparison (Optional) -->
+            <div class="mt-5">
+                <h4 class="text-center"><i class="bi bi-aspect-ratio-fill"></i> Before & After Transformation</h4>
+                <div class="d-flex justify-content-center">
+                    <img src="{% static 'img/consultance/before.jpg' %}" class="img-fluid me-3" alt="Before" style="max-width: 45%;">
+                    <img src="{% static 'img/consultance/after.jpg' %}" class="img-fluid" alt="After" style="max-width: 45%;">
+                </div>
+                <p class="text-center text-muted mt-3">See the transformation we brought to our clients.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- What Our Clients Say section -->
+    <section id="testimonials" class="py-3 bg-light">
+        <div class="container">
+            <div class="text-center mb-4">
+                <h2 class="fw-bold">What Our Clients Say</h2>
+                <p class="text-muted">Trusted by businesses worldwide</p>
+            </div>
+    
+            <div class="row">
+                <!-- Testimonial 1 -->
+                <div class="col-md-4">
+                    <div class="card p-3 border-0 shadow-sm">
+                        <div class="d-flex align-items-center">
+                            <img src="{% static 'img/consultance/client1.jpg' %}" class="rounded-circle me-3" width="50" height="50" alt="Client 1">
+                            <div>
+                                <h6 class="fw-bold mb-0">Sarah Johnson</h6>
+                                <small class="text-muted">CEO, TechGrowth Inc.</small>
+                            </div>
+                        </div>
+                        <p class="mt-3 fst-italic">"Their guidance helped us grow our revenue by 35% in just 6 months!"</p>
+                        <div class="text-warning">★★★★★</div>
+                    </div>
+                </div>
+    
+                <!-- Testimonial 2 -->
+                <div class="col-md-4">
+                    <div class="card p-3 border-0 shadow-sm">
+                        <div class="d-flex align-items-center">
+                            <img src="{% static 'img/consultance/client2.jpg' %}" class="rounded-circle me-3" width="50" height="50" alt="Client 2">
+                            <div>
+                                <h6 class="fw-bold mb-0">David Martinez</h6>
+                                <small class="text-muted">Founder, Startup Solutions</small>
+                            </div>
+                        </div>
+                        <p class="mt-3 fst-italic">"Their strategy helped us expand into 3 new markets effectively."</p>
+                        <div class="text-warning">★★★★★</div>
+                    </div>
+                </div>
+    
+                <!-- Testimonial 3 -->
+                <div class="col-md-4">
+                    <div class="card p-3 border-0 shadow-sm">
+                        <div class="d-flex align-items-center">
+                            <img src="{% static 'img/consultance/client3.jpg' %}" class="rounded-circle me-3" width="50" height="50" alt="Client 3">
+                            <div>
+                                <h6 class="fw-bold mb-0">Lisa Brown</h6>
+                                <small class="text-muted">Managing Director, EcomPro</small>
+                            </div>
+                        </div>
+                        <p class="mt-3 fst-italic">"We saw a 45% increase in customer retention within months!"</p>
+                        <div class="text-warning">★★★★★</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- How We Work section -->
+    <section id="process" class="py-5">
+        <div class="container">
+            <div class="text-center mb-4">
+                <h2 class="fw-bold">How We Work</h2>
+                <p class="text-muted">Our proven process ensures success at every stage</p>
+            </div>
+    
+            <div class="row text-center">
+                <!-- Step 1 -->
+                <div class="col-md-3">
+                    <div class="card p-3 border-0 shadow-sm">
+                        <i class="bi bi-chat-dots fs-1 text-primary"></i>
+                        <h5 class="fw-bold mt-3">Step 1: Consultation</h5>
+                        <p class="text-muted">We discuss your business goals and challenges to tailor a strategy.</p>
+                    </div>
+                </div>
+    
+                <!-- Step 2 -->
+                <div class="col-md-3">
+                    <div class="card p-3 border-0 shadow-sm">
+                        <i class="bi bi-lightbulb fs-1 text-success"></i>
+                        <h5 class="fw-bold mt-3">Step 2: Strategy</h5>
+                        <p class="text-muted">Our experts craft a custom roadmap to help you achieve success.</p>
+                    </div>
+                </div>
+    
+                <!-- Step 3 -->
+                <div class="col-md-3">
+                    <div class="card p-3 border-0 shadow-sm">
+                        <i class="bi bi-gear fs-1 text-danger"></i>
+                        <h5 class="fw-bold mt-3">Step 3: Implementation</h5>
+                        <p class="text-muted">We execute the strategy, optimizing for efficiency and growth.</p>
+                    </div>
+                </div>
+    
+                <!-- Step 4 -->
+                <div class="col-md-3">
+                    <div class="card p-3 border-0 shadow-sm">
+                        <i class="bi bi-bar-chart-line fs-1 text-warning"></i>
+                        <h5 class="fw-bold mt-3">Step 4: Results & Optimization</h5>
+                        <p class="text-muted">We monitor, measure, and refine to maximize long-term success.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Frequently Asked Questions section -->
+    <section id="pricing" class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-4">
+                <h2 class="fw-bold">Pricing Plans</h2>
+                <p class="text-muted">Choose a plan that fits your business needs.</p>
+            </div>
+    
+            <div class="row justify-content-center">
+                <!-- Basic Plan -->
+                <div class="col-md-4">
+                    <div class="card text-center border-0 shadow-sm p-4">
+                        <i class="bi bi-briefcase fs-1 text-primary"></i>
+                        <h4 class="fw-bold mt-3">Basic</h4>
+                        <p class="text-muted">$99 / month</p>
+                        <ul class="list-unstyled">
+                            <li class="text-start">✔ Business consultation</li>
+                            <li class="text-start">✔ Strategy overview</li>
+                            <li class="text-start">✖ Personalized reports</li>
+                            <li class="text-start">✖ Priority support</li>
+                        </ul>
+                        <a href="#" class="btn btn-primary">Get Started</a>
+                    </div>
+                </div>
+    
+                <!-- Pro Plan -->
+                <div class="col-md-4">
+                    <div class="card text-center border-0 shadow-lg p-4">
+                        <i class="bi bi-graph-up-arrow fs-1 text-success"></i>
+                        <h4 class="fw-bold mt-3">Pro</h4>
+                        <p class="text-muted">$199 / month</p>
+                        <ul class="list-unstyled">
+                            <li class="text-start">✔ Everything in Basic</li>
+                            <li class="text-start">✔ Detailed analytics report</li>
+                            <li class="text-start">✔ Growth strategies</li>
+                            <li class="text-start">✖ Dedicated consultant</li>
+                        </ul>
+                        <a href="#" class="btn btn-success">Get Started</a>
+                    </div>
+                </div>
+    
+                <!-- Premium Plan -->
+                <div class="col-md-4">
+                    <div class="card text-center border-0 shadow-sm p-4">
+                        <i class="bi bi-stars fs-1 text-warning"></i>
+                        <h4 class="fw-bold mt-3">Premium</h4>
+                        <p class="text-muted">$299 / month</p>
+                        <ul class="list-unstyled">
+                            <li class="text-start">✔ Everything in Pro</li>
+                            <li class="text-start">✔ 1-on-1 consulting</li>
+                            <li class="text-start">✔ Custom business solutions</li>
+                            <li class="text-start">✔ 24/7 Priority Support</li>
+                        </ul>
+                        <a href="#" class="btn btn-warning">Get Started</a>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Custom Quote Option -->
+            <div class="text-center mt-5">
+                <h5>Need a tailored solution?</h5>
+                <a href="#" class="btn btn-dark">Request a Custom Quote</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Pricing Plans section -->
+    <section id="faq" class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-4">
+                <h2 class="fw-bold">Frequently Asked Questions</h2>
+                <p class="text-muted">Find answers to the most common questions about our services.</p>
+            </div>
+            
+            <div class="accordion" id="faqAccordion" data-bs-theme="light">
+                {% for faq in faqs %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button {% if forloop.counter > 1 %}collapsed{% endif %}" 
+                                    type="button" 
+                                    data-bs-toggle="collapse" 
+                                    data-bs-target="#faq{{forloop.counter}}">
+                                <i class="bi bi-clock-history me-2"></i> {{ faq.question }}
+                            </button>
+                        </h2>
+                        <div id="faq{{forloop.counter}}" 
+                            class="accordion-collapse collapse {% if forloop.counter == 1 %}show{% endif %}" 
+                            data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                {{ faq.answer |safe}}
+                            </div>
+                        </div>
+                    </div>
+              {% endfor %}
+            </div>
+             <!-- FAQ 0 -->
+             <div class="accordion-item my-3">
+                <h2 class="accordion-header">
+                    <div class="d-flex justify-content-start align-items-center my-2">
+                        <button class="btn btn-secondary" data-bs-toggle="collapse" data-bs-target="#faq0"><i class="bi bi-plus fs-5 fw-bold"></i></button>
+                        <h4 class="mx-2">Ask what you think?</h4>
+                    </div>
+                </h2>
+                <div id="faq0" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        <form action="/services/consultance/questions/" method="post">
+                            {% csrf_token %}
+                            <span class="px-2">ask with in 100 char..</span>
+                            <div class="d-flex justify-content-start align-items-center">
+                                <input required max="100" type="text" name="question" id="question" class="form-control" placeholder="Write your question here">
+                                <input class="btn btn-dark m-1" type="submit" value="Ask ?">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- call to action section -->
+    <section id="cta" class=" text-center text-white" style="background: url('{% static 'img/consultance/cta-bg2.avif' %}') center/cover; backdrop-filter: blur(10px);">
+        <div style="backdrop-filter: blur(10px);" class="w-100 h-100 py-5">
+
+            <div class="container">
+                <h2 class="fw-bold">Take Your Business to the Next Level</h2>
+                <p class="lead mb-4">Get expert business consulting tailored to your needs. Let's build success together!</p>
+                
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="" class="btn btn-primary btn-lg">
+                        <i class="bi bi-calendar-check me-2"></i> Book a Free Consultation
+                    </a>
+                    <a href="" class="btn btn-outline-light btn-lg">
+                        <i class="bi bi-chat-dots me-2"></i> Request a Quote
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Get in touch section -->
+    <section id="contact" class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <!-- Contact Info -->
+                <div class="col-md-6">
+                    <h2 class="fw-bold">Get in Touch</h2>
+                    <p class="mb-4">We'd love to hear from you! Reach out to us for any inquiries.</p>
+                    
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-geo-alt-fill me-2"></i> Wazirpur, Ashok vihar, Delhi, 110052</li>
+                        <li><i class="bi bi-envelope-fill me-2"></i> support.me@horizoncoso.com</li>
+                    </ul>
+    
+                    <!-- Social Media Icons -->
+                    <div class="mt-3">
+                        <a target="_blank" href="https://linkedin.com/company/horizoncoso" class="btn btn-outline-primary me-2"><i class="bi bi-linkedin"></i></a>
+                        <a target="_blank" href="https://wa.me/1234567890" class="btn btn-outline-success me-2"><i class="bi bi-whatsapp"></i></a>
+                        <a target="_blank" href="https://instagram.com/horizoncoso" class="btn btn-outline-danger me-2"><i class="bi bi-instagram"></i></a>
+                        <a target="_blank" href="https://twitter.com/horizoncoso" class="btn btn-outline-info me-2"><i class="bi bi-twitter"></i></a>
+                    </div>
+                </div>
+    
+                <!-- Contact Form -->
+                <div class="col-md-6">
+                    <form method="POST" action="#">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Your Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Your Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-send-fill me-2"></i> Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Latest Insights & Resources section -->
+    <section id="blog" class="py-5">
+        <div class="container">
+            <h2 class="text-center fw-bold mb-4">Latest Insights & Resources</h2>
+            <p class="text-center mb-5">Stay updated with industry trends, expert advice, and success stories.</p>
+            
+            <div class="row">
+                <div class="d-flex flex-nowrap flex-row overflow-auto">
+
+                    <!-- Blog Post 1 -->
+                    <div class="col-md-4 m-2" style="min-width:18rem;">
+                        <div class="card shadow-sm">
+                            <img src="{% static 'img/consultance/blog1.jpg' %}" class="card-img-top" alt="Business Growth">
+                            <div class="card-body">
+                                <h5 class="card-title">How Business Consulting Boosts Growth</h5>
+                                <p class="card-text">Discover how expert consulting can help businesses scale and optimize operations.</p>
+                                <a href="#" class="btn btn-primary btn-sm">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- Blog Post 2 -->
+                    <div class="col-md-4 m-2" style="min-width:18rem;">
+                        <div class="card shadow-sm">
+                            <img src="{% static 'img/consultance/blog2.jpg' %}" class="card-img-top" alt="Case Study">
+                            <div class="card-body">
+                                <h5 class="card-title">Case Study: A Startup’s Journey to Success</h5>
+                                <p class="card-text">See how we helped a startup transform their business model and increase revenue.</p>
+                                <a href="#" class="btn btn-primary btn-sm">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- Blog Post 3 -->
+                    <div class="col-md-4 m-2" style="min-width:18rem;">
+                        <div class="card shadow-sm">
+                            <img src="{% static 'img/consultance/blog3.jpg' %}" class="card-img-top" alt="Industry Trends">
+                            <div class="card-body">
+                                <h5 class="card-title">Top Business Trends in 2025</h5>
+                                <p class="card-text">Explore emerging trends that will shape businesses and consulting services this year.</p>
+                                <a href="#" class="btn btn-primary btn-sm">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Blog Post 1 -->
+                    <div class="col-md-4 m-2" style="min-width:18rem;">
+                        <div class="card shadow-sm">
+                            <img src="{% static 'img/consultance/blog1.jpg' %}" class="card-img-top" alt="Business Growth">
+                            <div class="card-body">
+                                <h5 class="card-title">How Business Consulting Boosts Growth</h5>
+                                <p class="card-text">Discover how expert consulting can help businesses scale and optimize operations.</p>
+                                <a href="#" class="btn btn-primary btn-sm">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- Blog Post 2 -->
+                    <div class="col-md-4 m-2" style="min-width:18rem;">
+                        <div class="card shadow-sm">
+                            <img src="{% static 'img/consultance/blog2.jpg' %}" class="card-img-top" alt="Case Study">
+                            <div class="card-body">
+                                <h5 class="card-title">Case Study: A Startup’s Journey to Success</h5>
+                                <p class="card-text">See how we helped a startup transform their business model and increase revenue.</p>
+                                <a href="#" class="btn btn-primary btn-sm">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- Blog Post 3 -->
+                    <div class="col-md-4 m-2" style="min-width:18rem;">
+                        <div class="card shadow-sm">
+                            <img src="{% static 'img/consultance/blog3.jpg' %}" class="card-img-top" alt="Industry Trends">
+                            <div class="card-body">
+                                <h5 class="card-title">Top Business Trends in 2025</h5>
+                                <p class="card-text">Explore emerging trends that will shape businesses and consulting services this year.</p>
+                                <a href="#" class="btn btn-primary btn-sm">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Scroll to Top Button -->
+    <button onclick="scrollToTop()" id="scrollTopBtn" class="btn btn-primary">
+        <i class="bi bi-arrow-up-circle-fill"></i>
+    </button>
+    <!-- Styling for Scroll-to-Top Button -->
+    <style>
+        #scrollTopBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: none;
+            border-radius: 50%;
+            padding: 10px 15px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    </style>
+
+
+    <footer class="bg-dark text-light pt-5 pb-4">
+        <div class="container">
+            <div class="row">
+                <!-- Company Info -->
+                <div class="col-md-4">
+                    <h5 class="fw-bold">Your Company</h5>
+                    <p>We provide expert business consulting to help you achieve sustainable growth. Trusted by top brands worldwide.</p>
+                </div>
+    
+                <!-- Quick Links -->
+                <div class="col-md-2">
+                    <h6 class="fw-bold">Quick Links</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="/" class="text-light text-decoration-none">Home</a></li>
+                        <li><a href="/#about" class="text-light text-decoration-none">About</a></li>
+                        <li><a href="/#services" class="text-light text-decoration-none">Services</a></li>
+                        {% comment %} <li><a href="/#" class="text-light text-decoration-none">Portfolio</a></li> {% endcomment %}
+                        <li><a href="/#contact" class="text-light text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+    
+                <!-- Contact Info -->
+                <div class="col-md-3">
+                    <h6 class="fw-bold">Contact Us</h6>
+                    <p><i class="bi bi-geo-alt"></i> Wazirpur, Ashok vihar, Delhi, 110052</p>
+                    <p><i class="bi bi-envelope"></i> support.me@horizoncoso.com</p>
+                </div>
+    
+                <!-- Newsletter Subscription -->
+                <div class="col-md-3">
+                    <h6 class="fw-bold">Subscribe to Our Newsletter</h6>
+                    <form>
+                        <div class="input-group">
+                            <input type="email" class="form-control" placeholder="Enter your email">
+                            <button class="btn btn-primary" type="submit">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+    
+            <hr class="bg-light">
+    
+            <!-- Social Media Links & Copyright -->
+            <div class="row text-center">
+                <div class="col-md-6">
+                    <p class="mb-0">© 2025 horizon co&so. All Rights Reserved.</p>
+                </div>
+                <div class="col-md-6">
+                    <a role="button" onclick="shareOnWhatsApp()"  class="text-light me-2 fs-5"> <i class="bi bi-whatsapp"></i></a>
+                    <a role="button" onclick="shareOnLinkedIn()"  class="text-light me-2 fs-5"><i class="bi bi-linkedin"></i></a>
+                    <a role="button" onclick="shareOnTwitter()"   class="text-light me-2 fs-5"><i class="bi bi-twitter"></i></a>
+                    <a role="button" onclick="nativeShare()"      class="text-light me-2 fs-5"> <i class="bi bi-share-fill"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JavaScript for Sharing -->
+    <script>
+        function shareOnLinkedIn() {
+            const url = encodeURIComponent(window.location.href);
+            const title = encodeURIComponent(document.title);
+            window.open(`https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${title}`, '_blank');
+        }
+
+        function shareOnTwitter() {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent(document.title);
+            window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank');
+        }
+
+        // function shareOnWhatsApp() {
+        //     const url = encodeURIComponent(window.location.href);
+        //     const text = encodeURIComponent("Check out this amazing service: ");
+        //     window.open(`https://api.whatsapp.com/send?text=${text}${url}`, '_blank');
+        // }
+
+        function shareOnWhatsApp() {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent("Check out this amazing service: ");
+            if (/Android|iPhone/i.test(navigator.userAgent)) {
+                window.open(`whatsapp://send?text=${text}${url}`, '_blank');
+            } else {
+                window.open(`https://web.whatsapp.com/send?text=${text}${url}`, '_blank');
+            }
+        }
+
+        function nativeShare() {
+            if (navigator.share) {
+                navigator.share({
+                    title: document.title,
+                    url: window.location.href
+                })
+                .catch(error => console.log('Error sharing', error));
+            } else {
+                alert("Native sharing is not supported on this browser.");
+            }
+        }
+
+        
+        // Scroll to Top Function
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Show/hide Scroll to Top Button
+        window.onscroll = function() {
+            let btn = document.getElementById("scrollTopBtn");
+            if (document.documentElement.scrollTop > 100) {
+                btn.style.display = "block";
+            } else {
+                btn.style.display = "none";
+            }
+        };
+    </script>
+    
+
+</body>
+
+</html>
