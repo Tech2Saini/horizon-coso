@@ -81,8 +81,8 @@ WSGI_APPLICATION = 'horizoncoso.wsgi.application'
 import dj_database_url
 
 import os
-from dotenv import load_dotenv
-load_dotenv()  # take environment variables from .env.
+# from dotenv import load_dotenv
+# load_dotenv()  # take environment variables from .env.
 
 DATABASES = {
     'default': dj_database_url.config(default=os.getenv("DATABASE_URL"))
