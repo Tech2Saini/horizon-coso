@@ -6,6 +6,9 @@
             "config": {
                 "maxLambdaSize": "15mb",
                 "runtime": "python3.10"
+            },
+            "env": {
+                "PYTHON_VERSION": "3.10"
             }
         },
         {
