@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" id="htmlpage">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Secure MFA</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .login-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            margin: auto;
+        }
+        .error-msg {
+            color:#dbc836;
+            font-weight: bold;
+            text-align: left;
+        }
+    </style>
+
+    <script>
+        let page  = document.getElementById("htmlpage");
+
+        window.onload = e=>{
+            theme = localStorage.getItem("theme") || 'dark'
+            page.setAttribute('data-bs-theme',theme)
+            
+            if(theme == 'light'){
+                themebtn.innerHTML = `<i class='bi bi-brightness-high-fill'></i>` 
+            } else{
+                themebtn.innerHTML = `<i class='bi bi-moon'></i>` 
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div class="container">
+    <div class="login-container col-md-5">
+        <h2 class="fw-bold">🔐 Secure Login</h2>
+        <p>Enter your credentials to access the OTP portal.</p>
+        
+        {% if form.non_field_errors %}
+                <p class="error-msg m-1">{{ form.non_field_errors.0 }}</p>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="my-3">
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <p class="error-msg">{{ form.email.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div class="my-3">
+                {{ form.password }}
+                {% if form.password.errors %}
+                    <p class="error-msg">{{ form.password.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 fw-bold">Login</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

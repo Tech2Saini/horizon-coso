@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload MFA QR Code</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        body {
+            /* background: linear-gradient(135deg, #1e3c72, #2a5298); */
+            /* color: white; */
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .upload-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            text-align: center;
+        }
+        .drop-area {
+            border: 2px dashed #a89c9c;
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-bottom: 15px;
+        }
+        .drop-area:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .file-input {
+            display: none;
+        }
+        .btn-upload {
+            margin-top: 20px;
+            width: 100%;
+        }
+        .back-link {
+            display: block;
+            margin-top: 10px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .success-message {
+            color: #0f0;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        #image-preview {
+            display: none;
+            width: 100%;
+            max-height: 200px;
+            border-radius: 10px;
+            margin-top: 10px;
+            object-fit: contain;
+            border: 2px solid #c5c5c5;
+            padding: 5px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+    
+    <script>
+        window.onload = e=>{
+            document.documentElement.setAttribute('data-bs-theme',localStorage.getItem("theme") || "dark")
+        }
+    </script>
+</head>
+<body>
+    {% if request.user.is_superuser %}
+    <div class="d-flex justify-content-start flex-wrap p-2">
+        <a href="/mfa/show-otp/" class="m-2 btn btn-outline-primary">Show OTP<sub>s</sub></a>
+        <a target="_" href="/admin/" class="m-2 btn btn-outline-primary">Go to Admin Panel</a>
+    </div>
+    {% endif %}
+    
+    <div class="upload-container">
+        <h2>🔒 Secure MFA QR Upload</h2>
+        <p>Upload your MFA QR Code securely. Only image files are allowed.</p>
+
+        {% if messages %}
+            {% for message in messages %}
+                <p class="success-message">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <form id="upload-form" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="drop-area" id="drop-area">
+                <p>Drag & Drop your QR Code here <br> or <br> <span style="text-decoration: underline;">click to browse</span></p>
+                <input type="file" name="qr_code_image" id="file-input" class="file-input" accept="image/*" required>
+            </div>
+
+            <img id="image-preview" src="#" alt="Image Preview">
+
+            <button type="submit" class="btn btn-dark btn-upload">Upload</button>
+        </form>
+
+    </div>
+
+    <script>
+        let dropArea = document.getElementById('drop-area');
+        let fileInput = document.getElementById('file-input');
+        let imagePreview = document.getElementById('image-preview');
+
+
+
+
+        dropArea.addEventListener('dragover', (event) => {
+            event.preventDefault();
+            dropArea.style.background = "rgba(255, 255, 255, 0.2)";
+        });
+
+        dropArea.addEventListener('dragleave', () => {
+            dropArea.style.background = "transparent";
+        });
+
+        dropArea.addEventListener('drop', (event) => {
+            event.preventDefault();
+            dropArea.style.background = "transparent";
+            let file = event.dataTransfer.files[0];
+
+            if (file.type.startsWith("image/")) {
+                fileInput.files = event.dataTransfer.files;
+                previewImage(file);
+            } else {
+                alert("Only image files are allowed!");
+            }
+        });
+
+        dropArea.addEventListener("click", () => fileInput.click());
+
+        fileInput.addEventListener("change", (event) => {
+            let file = event.target.files[0];
+            if (file && file.type.startsWith("image/")) {
+                previewImage(file);
+            } else {
+                alert("Only image files are allowed!");
+                fileInput.value = "";
+            }
+        });
+
+        function previewImage(file) {
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = "block";
+            };
+            reader.readAsDataURL(file);
+        }
+    </script>
+
+</body>
+</html>
