@@ -3,8 +3,6 @@ from PIL import Image
 import os
 from django.utils.text import slugify
 from django.contrib.auth.models import User
-from ckeditor_uploader.fields import RichTextUploadingField
-from ckeditor.fields import RichTextField
 
 
 def team_member_photo_path(instance, filename):
@@ -162,7 +160,7 @@ class Blog(models.Model):
     meta_title = models.CharField(max_length=255, blank=True)
     meta_description = models.TextField(blank=True)
     tags = models.ManyToManyField('Tag', blank=True)
-    content = RichTextUploadingField()
+    content = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name="blogs")
     views = models.PositiveIntegerField(default=0)
     reading_time = models.PositiveIntegerField(default=1)  # In minutes
