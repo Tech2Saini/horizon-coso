@@ -23,6 +23,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include("home.urls"),name='home'),
     path('services/',include('services.urls'),name='services'),
-    path("ckeditor/", include('ckeditor_uploader.urls')), # <-- here
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
